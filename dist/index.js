@@ -16,9 +16,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core_1 = __nccwpck_require__(186);
 const child_process_1 = __nccwpck_require__(129);
 const path_1 = __nccwpck_require__(622);
-const core_1 = __nccwpck_require__(186);
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Get Inputs
@@ -30,11 +30,13 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         (0, core_1.debug)(`Inputs: ${JSON.stringify({ prefix, from, to, workingDirectory })}`);
         const json = (0, child_process_1.execSync)(`npx turbo@1 run build ${from || to ? `--filter="[${from}...${to}]"` : ''} --dry-run=json`, {
             cwd: (0, path_1.join)(process.cwd(), workingDirectory),
-            encoding: 'utf-8',
+            encoding: 'utf-8'
         });
         (0, core_1.debug)(`Output from Turborepo: ${json}`);
         const parsedOutput = JSON.parse(json);
-        const changedPackages = parsedOutput.packages.filter((p) => !prefix || p.startsWith(prefix)).map((p) => extractPrefix ? p.replace(prefix, "") : p);
+        const changedPackages = parsedOutput.packages
+            .filter((p) => !prefix || p.startsWith(prefix))
+            .map((p) => (extractPrefix ? p.replace(prefix, '') : p));
         (0, core_1.setOutput)('changed', changedPackages);
     }
     catch (error) {
