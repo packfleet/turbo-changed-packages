@@ -14,7 +14,7 @@ const run = async (): Promise<void> => {
     debug(`Inputs: ${JSON.stringify({ prefix, from, to, workingDirectory })}`)
 
     const json = execSync(
-      `npx turbo run build ${from || to ? `--filter="[${from}...${to}]"` : ''} --dry-run=json`,
+      `npx turbo@1 run build ${from || to ? `--filter="[${from}...${to}]"` : ''} --dry-run=json`,
       {
         cwd: join(process.cwd(), workingDirectory),
         encoding: 'utf-8',
